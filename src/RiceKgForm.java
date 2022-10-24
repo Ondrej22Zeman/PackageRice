@@ -41,22 +41,22 @@ public class RiceKgForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
 
-                if (oneKiloBagsTextField.getText().equals("") || !(Pattern.matches("^[0-9]+$", oneKiloBagsTextField.getText()))) {
+                if (oneKiloBagsTextField.getText().equals("") ||
+                        !(Pattern.matches("^[0-9]+$", oneKiloBagsTextField.getText()))) {
                     JOptionPane.showMessageDialog(null, "Jednokilové pole není číslo!");
                 } else {
-                    if (fiveKiloBagsTextField.getText().equals("") || !(Pattern.matches("^[0-9]+$", fiveKiloBagsTextField.getText()))) {
+                    if (fiveKiloBagsTextField.getText().equals("") ||
+                            !(Pattern.matches("^[0-9]+$", fiveKiloBagsTextField.getText()))) {
                         JOptionPane.showMessageDialog(null, "Pětikilové pole není číslo!");
                     } else {
-                        if (riceInKilosTextField.getText().equals("") || !(Pattern.matches("^[0-9]+$", riceInKilosTextField.getText()))) {
+                        if (riceInKilosTextField.getText().equals("") ||
+                                !(Pattern.matches("^[0-9]+$", riceInKilosTextField.getText()))) {
                             JOptionPane.showMessageDialog(null, "Kilogramy rýže není číslo!");
                         } else {
                             RicePackage packaging;
                             Bags bags;
-                            if (moduloCheckBox.isSelected()) {
-                                packaging = new PackagingModulo();
-                            } else {
-                                packaging = new PackagingIteration();
-                            }
+                            packaging = moduloCheckBox.isSelected() ? new PackagingModulo() : new PackagingIteration();
+
                             bags = packaging.packageRiceIntoBags(
                                     Integer.parseInt(oneKiloBagsTextField.getText()),
                                     Integer.parseInt(fiveKiloBagsTextField.getText()),
