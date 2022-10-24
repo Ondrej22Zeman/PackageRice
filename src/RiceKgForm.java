@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class RiceKgForm extends JFrame {
@@ -27,22 +26,14 @@ public class RiceKgForm extends JFrame {
         moduloCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (moduloCheckBox.isSelected()) {
-                    iterationCheckBox.setSelected(false);
-                } else {
-                    iterationCheckBox.setSelected(true);
-                }
+                iterationCheckBox.setSelected(!moduloCheckBox.isSelected());
             }
         });
 
         iterationCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (iterationCheckBox.isSelected()) {
-                    moduloCheckBox.setSelected(false);
-                } else {
-                    moduloCheckBox.setSelected(true);
-                }
+                moduloCheckBox.setSelected(!iterationCheckBox.isSelected());
             }
         });
         calcButton.addActionListener(new ActionListener() {
@@ -59,21 +50,18 @@ public class RiceKgForm extends JFrame {
                         if (riceInKilosTextField.getText().equals("") || !(Pattern.matches("^[0-9]+$", riceInKilosTextField.getText()))) {
                             JOptionPane.showMessageDialog(null, "Kilogramy rýže není číslo!");
                         } else {
+                            RicePackage packaging;
+                            Bags bags;
                             if (moduloCheckBox.isSelected()) {
-                                PackagingModulo packaging = new PackagingModulo();
-                                Bags bags = packaging.packageRiceIntoBags(
-                                        Integer.parseInt(oneKiloBagsTextField.getText().toString()),
-                                        Integer.parseInt(fiveKiloBagsTextField.getText().toString()),
-                                        Integer.parseInt(riceInKilosTextField.getText().toString()));
-                                JOptionPane.showMessageDialog(null, packaging.print(bags));
+                                packaging = new PackagingModulo();
                             } else {
-                                PackagingIteration packaging = new PackagingIteration();
-                                Bags bags = packaging.packageRiceIntoBags(
-                                        Integer.parseInt(oneKiloBagsTextField.getText().toString()),
-                                        Integer.parseInt(fiveKiloBagsTextField.getText().toString()),
-                                        Integer.parseInt(riceInKilosTextField.getText().toString()));
-                                JOptionPane.showMessageDialog(null, packaging.print(bags));
+                                packaging = new PackagingIteration();
                             }
+                            bags = packaging.packageRiceIntoBags(
+                                    Integer.parseInt(oneKiloBagsTextField.getText()),
+                                    Integer.parseInt(fiveKiloBagsTextField.getText()),
+                                    Integer.parseInt(riceInKilosTextField.getText()));
+                            JOptionPane.showMessageDialog(null, packaging.print(bags));
                         }
                     }
                 }
